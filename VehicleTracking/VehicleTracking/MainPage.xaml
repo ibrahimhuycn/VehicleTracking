@@ -12,7 +12,7 @@
 
     <StackLayout>
 
-        <Label x:Name="Display" FontAttributes="Bold"/>
+        <Label Text="{Binding LocationDisplayText}" FontAttributes="Bold"/>
         <maps:Map x:Name="mapOnDevice" IsShowingUser="True" VerticalOptions="FillAndExpand"/>
 
         <StackLayout Orientation="Horizontal">

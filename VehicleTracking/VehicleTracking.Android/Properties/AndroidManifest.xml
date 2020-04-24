@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.vehicletracking">
-    <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
-    <application android:label="VehicleTracking.Android">
-      <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyA4xjhsvzVqvIv3DPCopM1eokXXmKOavKM" />
-      <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-      <uses-library android:name="org.apache.http.legacy" android:required="false" />
-    </application>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.SwatInc.VehicleTracking" android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
+	<application android:label="VehicleTracking.Android" android:icon="@mipmap/icon">
+		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyA4xjhsvzVqvIv3DPCopM1eokXXmKOavKM" />
+		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+		<uses-library android:name="org.apache.http.legacy" android:required="false" />
+	</application>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 </manifest>

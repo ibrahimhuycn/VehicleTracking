@@ -1,0 +1,24 @@
+﻿CREATE PROCEDURE [dbo].[usp_InsertVehicle]
+(
+	@Description varchar(20)
+)
+AS
+BEGIN
+	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
+
+	BEGIN TRANSACTION
+	BEGIN TRY
+		INSERT INTO [dbo].[Vehicle] ([Description])
+		OUTPUT INSERTED.*
+		VALUES(@Description);
+	COMMIT TRANSACTION
+	END TRY
+	BEGIN CATCH
+    IF @@TRANCOUNT > 0
+    BEGIN
+        ROLLBACK TRANSACTION
+    END
+    END CATCH
+
+END

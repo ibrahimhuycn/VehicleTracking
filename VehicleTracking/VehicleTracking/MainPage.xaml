@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:viewModel="clr-namespace:VehicleTracking.ViewModels" xmlns:maps1="clr-namespace:Xamarin.Essentials;assembly=Xamarin.Essentials" xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             mc:Ignorable="d"
+             x:Class="VehicleTracking.MainPage">
+    <ContentPage.BindingContext>
+        <viewModel:MainViewModel x:Name="_viewModel"/>
+    </ContentPage.BindingContext>
+
+    <StackLayout>
+
+        <Label x:Name="Display" FontAttributes="Bold"/>
+        <maps:Map x:Name="mapOnDevice" IsShowingUser="True" VerticalOptions="FillAndExpand"/>
+
+        <StackLayout Orientation="Horizontal">
+            <CheckBox  Grid.Column="0" IsChecked="{Binding IsTrackingActive}"/>
+            <Label Margin="0,15,10,0" Text="{Binding CheckBoxLabel}"/>
+            <Button Text="Vehicle Name" Clicked="Button_Clicked"/>
+
+        </StackLayout>
+        <Label FontAttributes="Bold" Text="{Binding ErrorMessage}"/>
+
+    </StackLayout>
+
+</ContentPage>

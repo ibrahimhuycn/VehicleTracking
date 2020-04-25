@@ -38,6 +38,7 @@ namespace VehicleTracking
                 {
                     CreatePinsForUpdatedLocations(e);
                     ZoomToDeviceLocation(e);
+
                 }));
             }
 
@@ -52,6 +53,14 @@ namespace VehicleTracking
             if (MyLocation is null) { return; }
 
             ZoomInOnLocation(MyLocation);
+            UpdateLocationDisplayText(MyLocation);
+        }
+
+        private void UpdateLocationDisplayText(VehicleLocationModel myLocation)
+        {
+            _viewModel.LocationDisplayText = 
+                $"{ myLocation.UniqueVehicleName} at: LAT: {myLocation.Latitude} LONG: {myLocation.Longitude}";
+
         }
 
         private void ZoomInOnLocation(VehicleLocationModel myLocation)

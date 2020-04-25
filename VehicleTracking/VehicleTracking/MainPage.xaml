@@ -20,7 +20,7 @@
                        IsChecked="{Binding IsTrackingActive}"
                        IsEnabled="{Binding IsCheckboxEnabled}"/>
             <Label Margin="0,15,10,0" 
-                   Text="{Binding IsCheckboxEnabled, Mode=TwoWay}"/>
+                   Text="{Binding CheckBoxLabel, Mode=TwoWay}"/>
             <Button Text="Vehicle Name" 
                     Clicked="Button_Clicked"/>
 

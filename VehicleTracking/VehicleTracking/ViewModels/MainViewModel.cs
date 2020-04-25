@@ -46,9 +46,12 @@ namespace VehicleTracking.ViewModels
         {
             Debug.WriteLine(e.PropertyName);
             //UI rules: Tracking checkbox
-            if (e.PropertyName == nameof(IsCheckboxEnabled))
+            if (e.PropertyName == nameof(IsTrackingActive))
             {
-                if (!IsCheckboxEnabled) { CheckBoxLabel = "Processing..."; }
+                if (!IsCheckboxEnabled) 
+                {
+                    CheckBoxLabel = "Processing...";
+                }
 
                 if (IsCheckboxEnabled)
                 {

@@ -16,12 +16,15 @@
         <maps:Map x:Name="mapOnDevice" IsShowingUser="True" VerticalOptions="FillAndExpand"/>
 
         <StackLayout Orientation="Horizontal">
-            <CheckBox  Grid.Column="0" IsChecked="{Binding IsTrackingActive}"/>
-            <Label Margin="0,15,10,0" Text="{Binding CheckBoxLabel}"/>
-            <Button Text="Vehicle Name" Clicked="Button_Clicked"/>
+            <CheckBox  Grid.Column="0" 
+                       IsChecked="{Binding IsTrackingActive}"
+                       IsEnabled="{Binding IsCheckboxEnabled}"/>
+            <Label Margin="0,15,10,0" 
+                   Text="{Binding IsCheckboxEnabled, Mode=TwoWay}"/>
+            <Button Text="Vehicle Name" 
+                    Clicked="Button_Clicked"/>
 
         </StackLayout>
-        <Label FontAttributes="Bold" Text="{Binding ErrorMessage}"/>
 
     </StackLayout>
 

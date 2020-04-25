@@ -1,5 +1,7 @@
 ﻿
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using VehicleTracking.Models;
 
@@ -14,6 +16,8 @@ namespace VehicleTracking.Services
 
         public async Task<List<VehicleLocationModel>> GetAllVehicalLocations()
         {
+            Debug.WriteLine($"{DateTime.Now} - Location uploading");
+
             try
             {
                 return await ApiHelper.ApiClient.GetRequest("vehiclelocations")
@@ -24,10 +28,13 @@ namespace VehicleTracking.Services
             {
                 throw;
             }
+
         }
 
         public async Task<bool> ReportVehicleLocation(VehicleLocationModel vehicleLocation)
         {
+            Debug.WriteLine($"{DateTime.Now} - Location data downloading");
+
             try
             {
                 await ApiHelper.ApiClient.PostRequest("vehiclelocations",vehicleLocation)
@@ -36,7 +43,7 @@ namespace VehicleTracking.Services
                 return true;
 
             }
-            catch (System.Exception)
+            catch (Exception)
             {
 
                 throw;

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Timers;
@@ -23,6 +24,7 @@ namespace VehicleTracking.ViewModels
         private bool isTrackingActive;
         private string checkBoxLabel;
         private string errorMessage;
+        private bool isCheckboxEnabled;
 
         public event EventHandler<List<VehicleLocationModel>> VehicleLocationsUpdated;
         public MainViewModel()
@@ -32,9 +34,34 @@ namespace VehicleTracking.ViewModels
 
             refreshTimer = new Timer() { Interval = 6000, Enabled = false };
             locationReportingTimer = new Timer() { Interval = 6000, Enabled = false };
+
             refreshTimer.Elapsed += RefreshTimer_RealtimeLocations;
             locationReportingTimer.Elapsed += LocationReportingTimer_Elapsed;
+            this.PropertyChanged += MainViewModel_PropertyChanged;
 
+            IsCheckboxEnabled = true;
+        }
+
+        private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Debug.WriteLine(e.PropertyName);
+            //UI rules: Tracking checkbox
+            if (e.PropertyName == nameof(IsCheckboxEnabled))
+            {
+                if (!IsCheckboxEnabled) { CheckBoxLabel = "Processing..."; }
+
+                if (IsCheckboxEnabled)
+                {
+                    if (IsTrackingActive) { CheckBoxLabel = "Tracking ACTIVE"; } 
+                    else { CheckBoxLabel = "Tracking INACTIVE"; }
+                }
+            }
+
+            //toast messages
+            if(e.PropertyName == nameof(ErrorMessage))
+            {
+                Acr.UserDialogs.UserDialogs.Instance.Toast(ErrorMessage, new TimeSpan(5));
+            }
         }
 
         public string LocationDisplayText
@@ -72,7 +99,6 @@ namespace VehicleTracking.ViewModels
                 if (isTrackingActive == value) return;
                 isTrackingActive = value;
                 OnPropertyChanged();
-                ChangeCheckBoxLabel();
 
                 ManageTrackingStatus();
 
@@ -88,21 +114,26 @@ namespace VehicleTracking.ViewModels
             }
         }
 
-        private void ChangeCheckBoxLabel()
-        {
-            if (isTrackingActive)
-            { CheckBoxLabel = "Tracking ACTIVE"; }
-            else
-            { CheckBoxLabel = "Tracking Inactive"; }
 
-        }
         public string CheckBoxLabel
         {
-            get => checkBoxLabel; private set
+            get => checkBoxLabel;  
+            set
             {
-                if (checkBoxLabel == value) return;
+                //if (checkBoxLabel == value) return;
                 checkBoxLabel = value;
                 OnPropertyChanged();
+            }
+        }
+
+        public bool IsCheckboxEnabled
+        {
+            get => isCheckboxEnabled; set
+            {
+                if (isCheckboxEnabled == value) return;
+                isCheckboxEnabled = value;
+                OnPropertyChanged();
+
             }
         }
 
@@ -119,13 +150,13 @@ namespace VehicleTracking.ViewModels
             try
             {
                 var location = await RequestDeviceLocation();
+                LocationDisplayText = $"{uniqueVehicleName} at: LAT: {location.Latitude} LONG: {location.Longitude}";
+                var response = await api.ReportVehicleLocation(PreparetDataToReport(location));
 
-                var response  = await api.ReportVehicleLocation(PreparetDataToReport(location));
-
-                if (!IsInternetConnected()) 
-                { 
-                    ErrorMessage = $"No Internet Connection while sending location... next try in {locationReportingTimer.Interval/1000} seconds"; 
-                    return; 
+                if (!IsInternetConnected())
+                {
+                    ErrorMessage = $"No Internet Connection while sending location... next try in {locationReportingTimer.Interval / 1000} seconds";
+                    return;
                 }
                 if (!response) ErrorMessage = $"Cannot send Location at {DateTime.Now:HH:mm:ss}";
             }
@@ -134,7 +165,7 @@ namespace VehicleTracking.ViewModels
                 ErrorMessage = $"Error: {ex.Message}";
 
             }
-            
+
         }
 
         private bool IsInternetConnected()
